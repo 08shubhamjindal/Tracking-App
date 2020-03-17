@@ -1,2 +1,2 @@
 # Tracking-App
-Show NearBy Place from ypur Database
+Show NearBy Place from your Database
