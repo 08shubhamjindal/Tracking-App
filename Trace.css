@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+}
+.column1 {
+  float: left;
+  width: 40%;
+  padding: 10px;
+  height: 1000px;
+}
+.column2 {
+  float: left;
+  width: 60%;
+  padding: 10px;
+  height: 1000px;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media screen and (max-width: 600px) {
+  .column1 {
+    width: 100%;
+  }
+  .column2 {
+    width: 100%;
+  }
+}
+/* start card */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 50%;
+  background-color: red;
+  color: white;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+  position: relative;
+}
+#caricon{
+    position: absolute;
+    top: 0px;
+    right: 5px;
+}
+
+#cloudicon{
+    position: absolute;
+    top: 0px;
+    right: 35px;
+}
+
+/* end of card */
+/* input form card */
+.card1 {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+/* end of input card form */
+
+/* /input box */
+input[type=text]{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+/* input box end */
+
+#map {
+        height: 100%;
+      }

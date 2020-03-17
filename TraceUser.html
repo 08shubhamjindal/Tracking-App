@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="Trace.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   </head>
+   <body>
+      <h2>User View</h2>
+      <button type="button" name="button" id="user" onclick="togglebuttonforSwitch()">Switch to Owner</button>
+       <div class="row">
+         <div class="column1" id="firstColumn1"style="background-color:#aaa;">
+         </div>
+         <div class="column2" style="background-color:#242a33;">
+           <input id="searchInput" class="controls" type="text" placeholder="Enter a location">
+           <button type="button" name="button" onclick="getnearbyplace()">Submit</button>
+           <div id="map"></div>
+         </div>
+      </div>
+      <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyApmvlcKWmoDitcRebUATAAIAZIs4op7b4&callback=initMap" async defer></script>
+      <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApmvlcKWmoDitcRebUATAAIAZIs4op7b4&callback=initMap" async defer></script> -->
+      <script type="text/javascript" src="Trace.js"></script>
+   </body>
+</html>
+<!-- AIzaSyBpis5nC0y8xDJH8IfCyntU5P4xeNxBFN4 -->
