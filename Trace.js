@@ -1,19 +1,37 @@
 initMap = async (result) => {
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: {
-			lat: result.latitude,
-			lng: result.longitude
+			lat: result[0].latitude,
+			lng: result[0].longitude
 		},
 		zoom: 8
 	});
-  var marker = new google.maps.Marker({
-    position: {
-      lat: result.latitude,
-      lng: result.longitude
-    },
-    map: map,
-    title: 'Hello World!'
-  });
+
+	var infowindow = new google.maps.InfoWindow();
+  var marker, i;
+	for (i = 0; i < result.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(result[i].latitude, result[i].longitude),
+        map: map
+      });
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(result[i].getaddress);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+
+
+  // var marker = new google.maps.Marker({
+  //   position: {
+  //     lat: result.latitude,
+  //     lng: result.longitude
+  //   },
+  //   map: map,
+  //   title: 'Hello World!'
+  // });
+
 }
 
 window.onload = function () {
@@ -43,9 +61,18 @@ const addLocation = async() => {
 	console.log('check');
 	getname = document.getElementById('fname').value;
 	getaddress = document.getElementById('address').value;
-	var result = await asyaddressToLat_Lan(getaddress);
-  await initMap(result)
-	await addLocationcard(getname, getaddress, result)
+	var results = await asyaddressToLat_Lan(getaddress);
+  multiplemarkerData = {result:[]};
+	add_details = {
+		id:1,
+		getname: getname,
+		getaddress: getaddress,
+		latitude :results.latitude,
+		longitude : results.longitude
+	}
+	multiplemarkerData.result.push(add_details);
+  await initMap(multiplemarkerData.result);
+	await addLocationcard(getname, getaddress, results)
 	//  await console.log(result.latitude);
 }
 
@@ -128,25 +155,31 @@ getnearbyplace = async ()=>{
   var count=1;
   var getaddress = document.getElementById('searchInput').value;
   var result = await asyaddressToLat_Lan(getaddress);
-  await initMap(result);
   var previousJsonData = JSON.parse(localStorage.getItem('user'));
   var size = previousJsonData.result.length;
+	multiplemarkerData.result.push({id: 0,
+	getname: "you",
+	getaddress: getaddress,
+	latitude :result.latitude,
+	longitude : result.longitude})
+
   for(i=0; i<size; i++){
     var distance = (3959* Math.acos(Math.cos(result.latitude * Math.PI / 180)*Math.cos(previousJsonData.result[i].latitude * Math.PI / 180) * Math.cos((previousJsonData.result[i].longitude * Math.PI / 180) - (result.longitude * Math.PI / 180)) + Math.sin((result.latitude * Math.PI / 180)) * Math.sin((previousJsonData.result[i].latitude * Math.PI / 180))));
-    if(distance<=5 && count<=10) {
-      add_details = {
-        id: count,
-  			getname: previousJsonData.result[i].getname,
-  			getaddress: previousJsonData.result[i].getname,
-        latitude :previousJsonData.result[i].latitude,
-        longitude : previousJsonData.result[i].longitude
-  		}
+    if(distance<=50 && count<=10) {
+			add_details = {
+	        id: count,
+	  			getname: previousJsonData.result[i].getname,
+	  			getaddress: previousJsonData.result[i].getaddress,
+	        latitude :previousJsonData.result[i].latitude,
+	        longitude : previousJsonData.result[i].longitude
+	  		}
         multiplemarkerData.result.push(add_details)
         count++;
     } else if(count>10){
       break;
     }
   }
+  await initMap(multiplemarkerData.result);
   console.log(multiplemarkerData.result);
   console.log(result);
 }
