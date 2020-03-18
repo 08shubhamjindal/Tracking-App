@@ -34,6 +34,18 @@ initMap = async (result) => {
 
 }
 
+Add_Update_Form = (Button_Value, function_value) =>{
+	console.log(function_value);
+		document.getElementById('card1id').innerHTML = "";
+		document.getElementById('card1id').innerHTML = document.getElementById('card1id').innerHTML + `<div class="container">
+			<label for="fname">Name:</label><br>
+			<input type="text" id="fname" name="fname"><br><br/>
+			<label for="fname">Address:</label><br>
+			<input type="text" id="address" name="address"><br><br/>
+			<button type="button" name="button" onclick="${function_value}">${Button_Value}</button>
+		</div>`;
+}
+
 window.onload = function () {
   if (localStorage.getItem('user')!=null) {
     	var previousJsonData = JSON.parse(localStorage.getItem('user'));
@@ -56,6 +68,7 @@ togglebuttonforSwitch = () =>{
     window.location = "file:///C:/Users/Shubham%20Jindal/Documents/JavaScriptProject/Tracking-App/Trace.html";
   }
 }
+
 
 const addLocation = async() => {
 	console.log('check');
@@ -127,8 +140,8 @@ addLocationcard = async(getname, getaddress, result) => {
 	}
 	document.getElementById('firstColumn').innerHTML = document.getElementById('firstColumn').innerHTML + `<div class="card">
      <div class="container">
-        <i class="fa fa-car" id="caricon" style="font-size:20px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
-        <i class="fa fa-cloud" id="cloudicon" style="font-size:20px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
+      <a onclick="editcard('${previousJsonData.result.length -1}', '${getname}', '${getaddress}')"><i class="fa fa-car" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;" ></i></a>
+        <i class="fa fa-cloud" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
         <h4><b>${getname}</b></h4>
         <p>${getaddress}</p>
      </div>
@@ -137,16 +150,18 @@ addLocationcard = async(getname, getaddress, result) => {
 
 printdata = async(previousJsonData) => {
   var size = previousJsonData.result.length;
+
   for(var i=0; i<size; i++){
     document.getElementById('firstColumn').innerHTML = document.getElementById('firstColumn').innerHTML + `<div class="card">
        <div class="container">
-          <i class="fa fa-car" id="caricon" style="font-size:20px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
-          <i class="fa fa-cloud" id="cloudicon" style="font-size:20px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
+          <a onclick="editcard('${i}', '${previousJsonData.result[i].getname}', '${previousJsonData.result[i].getaddress}')"><i class="fa fa-car" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i></a>
+          <i class="fa fa-cloud" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
           <h4><b>${previousJsonData.result[i].getname}</b></h4>
           <p>${previousJsonData.result[i].getaddress}</p>
        </div>
     </div><br/>`
   }
+
 }
 
 getnearbyplace = async ()=>{
@@ -182,4 +197,35 @@ getnearbyplace = async ()=>{
   await initMap(multiplemarkerData.result);
   console.log(multiplemarkerData.result);
   console.log(result);
+}
+
+editcard = (index, name, address) =>{
+	console.log(index + name + address);
+	Add_Update_Form('Update The Details', 'edit('+index+')');
+	document.getElementById("fname").value = name;
+	document.getElementById("address").value = address;
+}
+
+edit = async (index)=>{
+	console.log(index);
+	getname = document.getElementById('fname').value;
+	getaddress = document.getElementById('address').value;
+	var results = await asyaddressToLat_Lan(getaddress);
+	var previousJsonData = JSON.parse(localStorage.getItem('user'));
+  previousJsonData.result[index].getname = getname;
+	previousJsonData.result[index].getaddress = getaddress;
+	previousJsonData.result[index].latitude = results.latitude;
+	previousJsonData.result[index].longitude = results.longitude;
+	localStorage.setItem('user', JSON.stringify(previousJsonData));
+	multiplemarkerData = {result:[]};
+	add_details = {
+		id:1,
+		getname: getname,
+		getaddress: getaddress,
+		latitude :results.latitude,
+		longitude : results.longitude
+	}
+	multiplemarkerData.result.push(add_details);
+	await initMap(multiplemarkerData.result);
+	window.alert('Edit Done');
 }
