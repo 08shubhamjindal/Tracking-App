@@ -1,5 +1,5 @@
 initMap = async (result) => {
- var map = new google.maps.Map(document.getElementById('map'), {
+  var map = new google.maps.Map(document.getElementById('map'), {
   center: {
    lat: result[0].latitude,
    lng: result[0].longitude
@@ -14,23 +14,13 @@ initMap = async (result) => {
    position: new google.maps.LatLng(result[i].latitude, result[i].longitude),
    map: map
   });
-  google.maps.event.addListener(marker, 'click', (function(marker, i) {
+   google.maps.event.addListener(marker, 'click', (function(marker, i) {
    return function() {
     infowindow.setContent(result[i].getaddress);
     infowindow.open(map, marker);
    }
   })(marker, i));
  }
-
-
- // var marker = new google.maps.Marker({
- //   position: {
- //     lat: result.latitude,
- //     lng: result.longitude
- //   },
- //   map: map,
- //   title: 'Hello World!'
- // });
 
 }
 
@@ -89,7 +79,6 @@ const addLocation = async () => {
  multiplemarkerData.result.push(add_details);
  await initMap(multiplemarkerData.result);
  await addLocationcard(getname, getaddress, results)
- //  await console.log(result.latitude);
 }
 
 asyaddressToLat_Lan = async (getaddress) => {
@@ -167,9 +156,7 @@ printdata = async (previousJsonData, idd) => {
 
 getnearbyplace = async () => {
  console.log('check1');
- multiplemarkerData = {
-  result: []
- };
+ multiplemarkerData = {result:[]};
  var count = 1;
  var getaddress = document.getElementById('searchInput').value;
  var result = await asyaddressToLat_Lan(getaddress);
@@ -185,7 +172,7 @@ getnearbyplace = async () => {
 
  for (i = 0; i < size; i++) {
   var distance = (3959 * Math.acos(Math.cos(result.latitude * Math.PI / 180) * Math.cos(previousJsonData.result[i].latitude * Math.PI / 180) * Math.cos((previousJsonData.result[i].longitude * Math.PI / 180) - (result.longitude * Math.PI / 180)) + Math.sin((result.latitude * Math.PI / 180)) * Math.sin((previousJsonData.result[i].latitude * Math.PI / 180))));
-  if (distance <= 50 && count <= 10) {
+  if (distance <= 100 && count <= 10) {
    add_details = {
     id: count,
     getname: previousJsonData.result[i].getname,
@@ -200,10 +187,9 @@ getnearbyplace = async () => {
   }
  }
  await initMap(multiplemarkerData.result);
- printdata(multiplemarkerData, 'firstColumn1');
+ printdata_User(multiplemarkerData, 'firstColumn1');
  console.log(multiplemarkerData.result);
  console.log(result);
-
 }
 
 editcard = (index, name, address) => {
