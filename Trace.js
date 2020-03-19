@@ -32,7 +32,7 @@ Add_Update_Form = (Button_Value, function_value) => {
   <input type="text" id="fname" name="fname"><br><br/>
   <label for="fname">Address:</label><br>
   <input type="text" id="address" name="address"><br><br/>
-  <button type="button" name="button" onclick="${function_value}">${Button_Value}</button>
+  <button type="button" name="button" id="addLocation" onclick="${function_value}">${Button_Value}</button>
   </div>`;
 }
 
@@ -132,10 +132,10 @@ addLocationcard = async (getname, getaddress, result) => {
  }
  document.getElementById('firstColumn').innerHTML = document.getElementById('firstColumn').innerHTML + `<div class="card">
      <div class="container">
-      <a onclick="editcard('${previousJsonData.result.length -1}', '${getname}', '${getaddress}')"><i class="fa fa-car" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;" ></i></a>
-        <i class="fa fa-cloud" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
-        <h4><b>${getname}</b></h4>
-        <p>${getaddress}</p>
+      <a onclick="editcard('${previousJsonData.result.length -1}', '${getname}', '${getaddress}')"><i class="fa fa-edit" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;" ></i></a>
+        <i class="fa fa-trash" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
+        <h4>Name:<b>${getname}</b></h4>
+        <p>Address:${getaddress}</p>
      </div>
   </div><br/>`
 }
@@ -145,10 +145,10 @@ printdata = async (previousJsonData, idd) => {
  for (var i = 0; i < size; i++) {
   document.getElementById(idd).innerHTML = document.getElementById(idd).innerHTML + `<div class="card">
        <div class="container">
-          <a onclick="editcard('${i}', '${previousJsonData.result[i].getname}', '${previousJsonData.result[i].getaddress}')"><i class="fa fa-car" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i></a>
-          <i class="fa fa-cloud" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
-          <h4><b>${previousJsonData.result[i].getname}</b></h4>
-          <p>${previousJsonData.result[i].getaddress}</p>
+          <a onclick="editcard('${i}', '${previousJsonData.result[i].getname}', '${previousJsonData.result[i].getaddress}')"><i class="fa fa-edit" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i></a>
+          <i class="fa fa-trash" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
+          <h4>Name:<b>${previousJsonData.result[i].getname}</b></h4>
+          <p>Address:${previousJsonData.result[i].getaddress}</p>
        </div>
     </div><br/>`
  }
@@ -210,9 +210,7 @@ edit = async (index) => {
  previousJsonData.result[index].latitude = results.latitude;
  previousJsonData.result[index].longitude = results.longitude;
  localStorage.setItem('user', JSON.stringify(previousJsonData));
- multiplemarkerData = {
-  result: []
- };
+ multiplemarkerData = {result: []};
  add_details = {
   id: 1,
   getname: getname,
