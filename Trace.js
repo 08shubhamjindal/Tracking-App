@@ -172,7 +172,7 @@ getnearbyplace = async () => {
 
  for (i = 0; i < size; i++) {
   var distance = (3959 * Math.acos(Math.cos(result.latitude * Math.PI / 180) * Math.cos(previousJsonData.result[i].latitude * Math.PI / 180) * Math.cos((previousJsonData.result[i].longitude * Math.PI / 180) - (result.longitude * Math.PI / 180)) + Math.sin((result.latitude * Math.PI / 180)) * Math.sin((previousJsonData.result[i].latitude * Math.PI / 180))));
-  if (distance <= 100 && count <= 10) {
+  if (distance <= 50 && count <= 10) {
    add_details = {
     id: count,
     getname: previousJsonData.result[i].getname,
@@ -187,7 +187,7 @@ getnearbyplace = async () => {
   }
  }
  await initMap(multiplemarkerData.result);
- printdata_User(multiplemarkerData, 'firstColumn1');
+ printdata_User(multiplemarkerData, 'firstColumn1', false);
  console.log(multiplemarkerData.result);
  console.log(result);
 }
