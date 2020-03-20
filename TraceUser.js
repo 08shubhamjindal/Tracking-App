@@ -6,7 +6,7 @@ printdata_User = async (previousJsonData, idd, check_var) => {
      document.getElementById(idd).innerHTML = "<b>Your Last History</b><br/><br/>";
   }
  var size = previousJsonData.result.length;
- for (var i = start; i < size; i++) {
+ for (var i = start; i < Math.min(5,size); i++) {
        document.getElementById(idd).innerHTML = document.getElementById(idd).innerHTML + `<div class="card">
           <div class="container">
           <h4>Name:<b>${previousJsonData.result[i].getname}</b></h4>
@@ -62,41 +62,33 @@ window.onload = function() {
 
 recent_Search = (name, address, latitude, longitude)=> {
   if (localStorage.getItem('recentItem') == null) {
-   details = {result: [{
+   add_details = {result: [{
      id: 1,
      getname: name,
      getaddress: address,
      latitude: latitude,
      longitude: longitude}]}
-   localStorage.setItem('recentItem', JSON.stringify(details));
- }else{
+   localStorage.setItem('recentItem', JSON.stringify(add_details));
+ } else {
      var previous_RecentJsonData = JSON.parse(localStorage.getItem('recentItem'));
      var size = previous_RecentJsonData.result.length;
      var flag=0;
+     add_details = {id: previous_RecentJsonData.result.length + 1,
+     getname: name,
+     getaddress: address,
+     latitude: latitude,
+     longitude: longitude}
      for(var i=0; i<size; i++){
        if(previous_RecentJsonData.result[i].latitude==latitude && previous_RecentJsonData.result[i].longitude==longitude
           && previous_RecentJsonData.result[i].getname==name && previous_RecentJsonData.result[i].getaddress==address) {
             previous_RecentJsonData.result.splice(i,1);
-            add_details = {id: previous_RecentJsonData.result.length + 1,
-            getname: name,
-            getaddress: address,
-            latitude: latitude,
-            longitude: longitude}
             previous_RecentJsonData.result.unshift(add_details);
-            localStorage.setItem('recentItem', JSON.stringify(previous_RecentJsonData));
             flag=1;
             break;
           }
      }
-     if(flag==0){
-          var previous_RecentJsonData = JSON.parse(localStorage.getItem('recentItem'));
-          add_details = {id: previous_RecentJsonData.result.length + 1,
-          getname: name,
-          getaddress: address,
-          latitude: latitude,
-          longitude: longitude}
-         previous_RecentJsonData.result.push(add_details);
-         localStorage.setItem('recentItem', JSON.stringify(previous_RecentJsonData));
-     }
+     if(flag==0) previous_RecentJsonData.result.push(add_details);
+
+     localStorage.setItem('recentItem', JSON.stringify(previous_RecentJsonData));
  }
 }

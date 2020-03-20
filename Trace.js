@@ -193,14 +193,12 @@ getnearbyplace = async () => {
 }
 
 editcard = (index, name, address) => {
- console.log(index + name + address);
  Add_Update_Form('Update The Details', 'edit(' + index + ')');
  document.getElementById("fname").value = name;
  document.getElementById("address").value = address;
 }
 
 edit = async (index) => {
- console.log(index);
  getname = document.getElementById('fname').value;
  getaddress = document.getElementById('address').value;
  var results = await asyaddressToLat_Lan(getaddress);
@@ -220,5 +218,6 @@ edit = async (index) => {
  }
  multiplemarkerData.result.push(add_details);
  await initMap(multiplemarkerData.result);
- window.alert('Edit Done');
+ document.location.reload();
+ window.alert('Edit Done Successfully');
 }
