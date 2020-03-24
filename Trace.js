@@ -26,8 +26,7 @@ initMap = async (result) => {
 
 Add_Update_Form = (Button_Value, function_value) => {
  console.log(function_value);
- document.getElementById('card1id').innerHTML = "";
- document.getElementById('card1id').innerHTML = document.getElementById('card1id').innerHTML + `<div class="container">
+  document.getElementById('card1id').innerHTML =   `<div class="container">
   <label for="fname">Name:</label><br>
   <input type="text" id="fname" name="fname"><br><br/>
   <label for="fname">Address:</label><br>
@@ -66,9 +65,7 @@ const addLocation = async () => {
  getname = document.getElementById('fname').value;
  getaddress = document.getElementById('address').value;
  var results = await asyaddressToLat_Lan(getaddress);
- multiplemarkerData = {
-  result: []
- };
+ multiplemarkerData = {result:[]};
  add_details = {
   id: 1,
   getname: getname,
@@ -142,8 +139,9 @@ addLocationcard = async (getname, getaddress, result) => {
 
 printdata = async (previousJsonData, idd) => {
  var size = previousJsonData.result.length;
+ var innerhtml = '';
  for (var i = 0; i < size; i++) {
-  document.getElementById(idd).innerHTML = document.getElementById(idd).innerHTML + `<div class="card">
+  innerhtml = innerhtml +  `<div class="card">
        <div class="container">
           <a onclick="editcard('${i}', '${previousJsonData.result[i].getname}', '${previousJsonData.result[i].getaddress}')"><i class="fa fa-edit" id="caricon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i></a>
           <i class="fa fa-trash" id="cloudicon" style="font-size:15px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
@@ -152,6 +150,7 @@ printdata = async (previousJsonData, idd) => {
        </div>
     </div><br/>`
  }
+ document.getElementById(idd).innerHTML = document.getElementById(idd).innerHTML + innerhtml;
 }
 
 getnearbyplace = async () => {

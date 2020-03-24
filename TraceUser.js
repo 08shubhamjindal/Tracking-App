@@ -6,8 +6,9 @@ printdata_User = async (previousJsonData, idd, check_var) => {
      document.getElementById(idd).innerHTML = "<b>Your Last History</b><br/><br/>";
   }
  var size = previousJsonData.result.length;
+ var innerhtml = '';
  for (var i = start; i < Math.min(5,size); i++) {
-       document.getElementById(idd).innerHTML = document.getElementById(idd).innerHTML + `<div class="card">
+      innerhtml = innerhtml + `<div class="card">
           <div class="container">
           <h4>Name:<b>${previousJsonData.result[i].getname}</b></h4>
           <p>Address:${previousJsonData.result[i].getaddress}</p>
@@ -17,6 +18,7 @@ printdata_User = async (previousJsonData, idd, check_var) => {
        </div>
     </div><br/>`
  }
+ document.getElementById(idd).innerHTML = document.getElementById(idd).innerHTML + innerhtml;
 }
 
 initMap_User = (source_lat, source_lang, dest_lat, dest_lang) => {
